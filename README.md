@@ -88,3 +88,33 @@ rest-api-internship/
 └── README.md
 Conclusion
 This project demonstrates how to build a REST API with persistent SQLite storage and perform complete CRUD operations with validation and error handling.
+## Task 4 - Secure Application Integration
+
+### Integration
+- Frontend is served using the public folder.
+- Internship data is loaded from the REST API.
+- Application form submits data to the application API.
+- Frontend and backend are integrated successfully.
+
+### Test Report
+
+| Test | Result |
+|---|---|
+| Load internship data | Passed |
+| Empty form validation | Passed |
+| Invalid email validation | Passed |
+| Valid application submission | Passed |
+| API error handling | Passed |
+
+### Security Checklist
+
+- Helmet security headers enabled.
+- API rate limiting enabled.
+- Parameterized SQL queries used.
+- Server-side input validation implemented.
+- Email format validation implemented.
+- Required fields are validated before database insertion.
+
+### Task 4 Conclusion
+
+The application successfully integrates the frontend with the REST API and SQLite database. Validation and basic security measures are implemented to improve the reliability and security of the application.

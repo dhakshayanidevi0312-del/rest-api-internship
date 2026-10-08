@@ -1,13 +1,35 @@
 const express = require("express");
 const Database = require("better-sqlite3");
+const helmet = require("helmet");
+const rateLimit = require("express-rate-limit");
 
 const app = express();
+const PORT = 3000;
 
+// Security middleware
+app.use(helmet());
+
+// Rate limiting
+const apiLimiter = rateLimit({
+    windowMs: 15 * 60 * 1000,
+    max: 100,
+    message: {
+        error: "Too many requests. Please try again later."
+    }
+});
+
+app.use("/api", apiLimiter);
+
+// JSON body parser
 app.use(express.json());
 
+// Serve frontend
+app.use(express.static("public"));
+
+// Database
 const db = new Database("internships.db");
 
-// Create table
+// Create internships table
 db.exec(`
     CREATE TABLE IF NOT EXISTS internships (
         id INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -18,12 +40,25 @@ db.exec(`
     )
 `);
 
-// Add sample data if database is empty
-const count = db.prepare("SELECT COUNT(*) AS count FROM internships").get();
+// Create applications table
+db.exec(`
+    CREATE TABLE IF NOT EXISTS applications (
+        id INTEGER PRIMARY KEY AUTOINCREMENT,
+        name TEXT NOT NULL,
+        email TEXT NOT NULL,
+        internship TEXT NOT NULL
+    )
+`);
+
+// Add sample internship data
+const count = db.prepare(
+    "SELECT COUNT(*) AS count FROM internships"
+).get();
 
 if (count.count === 0) {
     const insert = db.prepare(`
-        INSERT INTO internships (title, company, domain, location)
+        INSERT INTO internships
+        (title, company, domain, location)
         VALUES (?, ?, ?, ?)
     `);
 
@@ -51,12 +86,10 @@ if (count.count === 0) {
 
 // Home route
 app.get("/", (req, res) => {
-    res.json({
-        message: "Internship REST API is running"
-    });
+    res.sendFile(__dirname + "/public/index.html");
 });
 
-// GET - Get all internships
+// GET all internships
 app.get("/api/internships", (req, res) => {
     const internships = db
         .prepare("SELECT * FROM internships")
@@ -65,7 +98,7 @@ app.get("/api/internships", (req, res) => {
     res.status(200).json(internships);
 });
 
-// GET - Get one internship
+// GET one internship
 app.get("/api/internships/:id", (req, res) => {
     const internship = db
         .prepare("SELECT * FROM internships WHERE id = ?")
@@ -156,9 +189,39 @@ app.delete("/api/internships/:id", (req, res) => {
     });
 });
 
-// Start server
-const PORT = 3000;
+// POST - Application form
+app.post("/api/applications", (req, res) => {
+    const { name, email, internship } = req.body;
 
+    if (!name || !email || !internship) {
+        return res.status(400).json({
+            error: "Name, email and internship are required"
+        });
+    }
+
+    const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+    if (!emailPattern.test(email)) {
+        return res.status(400).json({
+            error: "Please provide a valid email address"
+        });
+    }
+
+    const result = db
+        .prepare(`
+            INSERT INTO applications
+            (name, email, internship)
+            VALUES (?, ?, ?)
+        `)
+        .run(name, email, internship);
+
+    res.status(201).json({
+        message: "Application submitted successfully",
+        id: result.lastInsertRowid
+    });
+});
+
+// Start server
 app.listen(PORT, () => {
     console.log(`Server running on http://localhost:${PORT}`);
 });
