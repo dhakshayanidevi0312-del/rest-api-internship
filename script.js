@@ -16,6 +16,7 @@ async function loadInternships() {
 
         internships.forEach((internship) => {
             const card = document.createElement("div");
+            card.className = "internship-card";
 
             card.innerHTML = `
                 <h3>${internship.title}</h3>

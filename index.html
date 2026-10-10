@@ -3,42 +3,93 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <meta name="description"
+        content="Internship portal for browsing and applying to internship opportunities.">
+
     <title>Internship Board</title>
+
+    <link rel="stylesheet" href="style.css">
 </head>
+
 <body>
 
-    <h1>Internship Board</h1>
+    <header class="header">
+        <div class="container">
+            <h1>Internship Board</h1>
+            <p>Find internship opportunities and start your career journey.</p>
+        </div>
+    </header>
 
-    <p id="loading">Loading internships...</p>
-    <p id="error" style="display: none;">
-        Failed to load internships.
-    </p>
+    <main class="container">
 
-    <div id="internshipList"></div>
+        <section class="internships" aria-labelledby="internship-heading">
+            <h2 id="internship-heading">Available Internships</h2>
 
-    <h2>Apply for an Internship</h2>
+            <p id="loading" role="status">
+                Loading internships...
+            </p>
 
-    <form id="applicationForm">
-        <label for="name">Name:</label>
-        <input type="text" id="name" required>
+            <p id="error" class="error" role="alert" hidden>
+                Failed to load internships. Please try again.
+            </p>
 
-        <br><br>
+            <div id="internshipList" class="internship-list"></div>
+        </section>
 
-        <label for="email">Email:</label>
-        <input type="email" id="email" required>
+        <section class="application" aria-labelledby="application-heading">
+            <h2 id="application-heading">Apply for an Internship</h2>
 
-        <br><br>
+            <form id="applicationForm">
 
-        <label for="internship">Internship:</label>
-        <input type="text" id="internship" required>
+                <div class="form-group">
+                    <label for="name">Name</label>
+                    <input
+                        type="text"
+                        id="name"
+                        name="name"
+                        required
+                        autocomplete="name"
+                    >
+                </div>
 
-        <br><br>
+                <div class="form-group">
+                    <label for="email">Email</label>
+                    <input
+                        type="email"
+                        id="email"
+                        name="email"
+                        required
+                        autocomplete="email"
+                    >
+                </div>
 
-        <button type="submit">Apply</button>
-    </form>
+                <div class="form-group">
+                    <label for="internship">Internship</label>
+                    <input
+                        type="text"
+                        id="internship"
+                        name="internship"
+                        required
+                    >
+                </div>
 
-    <p id="formMessage"></p>
+                <button type="submit">
+                    Apply Now
+                </button>
+
+            </form>
+
+            <p id="formMessage" role="status" aria-live="polite"></p>
+        </section>
+
+    </main>
+
+    <footer class="footer">
+        <p>Internship Board &copy; 2026</p>
+    </footer>
 
     <script src="script.js"></script>
+
 </body>
 </html>

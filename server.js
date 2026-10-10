@@ -22,6 +22,11 @@ app.use("/api", apiLimiter);
 
 // JSON body parser
 app.use(express.json());
+// Request logging
+app.use((req, res, next) => {
+    console.log(`${new Date().toISOString()} - ${req.method} ${req.url}`);
+    next();
+});
 
 // Serve frontend
 app.use(express.static("public"));
@@ -83,6 +88,12 @@ if (count.count === 0) {
         "Bangalore"
     );
 }
+app.get("/health", (req, res) => {
+    res.status(200).json({
+        status: "OK",
+        message: "Internship Portal is healthy"
+    });
+});
 
 // Home route
 app.get("/", (req, res) => {

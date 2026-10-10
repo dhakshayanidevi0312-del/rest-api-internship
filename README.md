@@ -117,4 +117,63 @@ This project demonstrates how to build a REST API with persistent SQLite storage
 
 ### Task 4 Conclusion
 
-The application successfully integrates the frontend with the REST API and SQLite database. Validation and basic security measures are implemented to improve the reliability and security of the application.
+The application successfully integrates the frontend with the REST API and SQLite database. Validation and basic security measures are implemented to improve the reliability and security of the application./
+ 
+
+## Task 5: Production-Ready Capstone
+
+### Project Overview
+The Internship Board is a web application that displays internship opportunities and allows users to submit internship applications. It is developed using HTML, CSS, JavaScript, Node.js, Express.js, and SQLite.
+
+### Key Features
+- Display available internship opportunities.
+- Submit internship applications through a form.
+- Store application data using SQLite.
+- Validate user input on the server.
+- Use Helmet security headers.
+- Apply rate limiting to API requests.
+- Provide a health-check endpoint.
+- Log incoming HTTP requests in the terminal.
+- Responsive user interface for different screen sizes.
+
+### Technologies Used
+- HTML5
+- CSS3
+- JavaScript
+- Node.js
+- Express.js
+- SQLite
+- Helmet
+- express-rate-limit
+
+### Installation and Setup
+1. Install Node.js.
+2. Download or clone this repository.
+3. Open the project folder in the terminal.
+4. Install dependencies using `npm install`.
+5. Start the server using `node server.js`.
+6. Open `http://localhost:3000` in your browser.
+
+### Health Check
+Open `http://localhost:3000/health` to check the server status. The endpoint returns a JSON response indicating that the Internship Portal is healthy.
+
+### Testing Evidence
+The following checks were performed manually:
+
+- Verified that the internship listing loads in the browser.
+- Tested application submission.
+- Checked invalid email validation.
+- Verified the health-check endpoint.
+- Confirmed that HTTP requests appear in the terminal logs.
+
+### Security Measures
+- Server-side input validation.
+- Parameterized SQL queries.
+- Helmet security headers.
+- API rate limiting.
+
+### Future Improvements
+- Add automated unit and integration tests.
+- Perform detailed accessibility and performance testing.
+- Deploy the application to a public hosting platform.
+- Improve application monitoring and error reporting.
